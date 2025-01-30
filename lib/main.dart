@@ -1,6 +1,4 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'screens/second_page.dart';
 
 void main() {
@@ -11,11 +9,59 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: CounterPage(),
+      debugShowCheckedModeBanner: false,
+      home: MainScreen(),
     );
   }
 }
 
+class MainScreen extends StatefulWidget {
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    CounterPage(),
+    SecondPage(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Row(
+        children: [
+          NavigationRail(
+            selectedIndex: _selectedIndex,
+            onDestinationSelected: (int index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            labelType: NavigationRailLabelType.all,
+            destinations: [
+              NavigationRailDestination(
+                icon: Icon(Icons.countertops),
+                selectedIcon: Icon(Icons.countertops, color: Colors.blue),
+                label: Text('Compteur'),
+              ),
+              NavigationRailDestination(
+                icon: Icon(Icons.edit),
+                selectedIcon: Icon(Icons.edit, color: Colors.blue),
+                label: Text('Formulaire'),
+              ),
+            ],
+          ),
+          Expanded(child: _pages[_selectedIndex]),
+        ],
+      ),
+    );
+  }
+}
+
+// Première page (Compteur)
 class CounterPage extends StatefulWidget {
   @override
   _CounterPageState createState() => _CounterPageState();
@@ -26,7 +72,7 @@ class _CounterPageState extends State<CounterPage> {
 
   void _incrementCounter() {
     setState(() {
-      _counter++;  // Met à jour le compteur
+      _counter++;
     });
   }
 
@@ -40,15 +86,6 @@ class _CounterPageState extends State<CounterPage> {
           children: [
             Text("Nombre de clics :"),
             Text("$_counter", style: TextStyle(fontSize: 30)),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SecondPage()),
-                );
-              },
-              child: Text("Aller à la deuxième page"),
-            ),
           ],
         ),
       ),
