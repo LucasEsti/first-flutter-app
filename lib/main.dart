@@ -1,6 +1,7 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'screens/second_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -39,6 +40,15 @@ class _CounterPageState extends State<CounterPage> {
           children: [
             Text("Nombre de clics :"),
             Text("$_counter", style: TextStyle(fontSize: 30)),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SecondPage()),
+                );
+              },
+              child: Text("Aller à la deuxième page"),
+            ),
           ],
         ),
       ),
